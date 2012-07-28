@@ -44,6 +44,7 @@ setup(name='Sortie',
       main = sortie:main
       [console_scripts]
       sortie-db-manage = sortie.scripts.db_manage:main
+      sortie-import = sortie.scripts.import:main
       """,
       )
 
