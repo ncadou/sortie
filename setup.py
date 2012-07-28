@@ -7,13 +7,16 @@ README = open(os.path.join(here, 'README.txt')).read()
 CHANGES = open(os.path.join(here, 'CHANGES.txt')).read()
 
 requires = [
+    'alembic',
+    'colanderalchemy',
+    'psycopg2',
     'pyramid',
+    'pyramid_debugtoolbar',
+    'pyramid_tm',
     'SQLAlchemy',
     'transaction',
-    'pyramid_tm',
-    'pyramid_debugtoolbar',
-    'zope.sqlalchemy',
     'waitress',
+    'zope.sqlalchemy',
     ]
 
 setup(name='Sortie',
@@ -39,7 +42,7 @@ setup(name='Sortie',
       [paste.app_factory]
       main = sortie:main
       [console_scripts]
-      initialize_Sortie_db = sortie.scripts.initializedb:main
+      sortie-db-manage = sortie.scripts.db_manage:main
       """,
       )
 
