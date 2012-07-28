@@ -9,6 +9,7 @@ CHANGES = open(os.path.join(here, 'CHANGES.txt')).read()
 requires = [
     'alembic',
     'colanderalchemy',
+    'cryptacular',
     'psycopg2',
     'pyramid',
     'pyramid_debugtoolbar',
