@@ -8,8 +8,10 @@ CHANGES = open(os.path.join(here, 'CHANGES.txt')).read()
 
 requires = [
     'alembic',
+    'babel',
     'colanderalchemy',
     'cryptacular',
+    'lingua',
     'psycopg2',
     'pyramid',
     'pyramid_debugtoolbar',
