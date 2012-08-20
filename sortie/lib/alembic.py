@@ -9,7 +9,7 @@ from alembic.script import ScriptDirectory
 import transaction
 
 from ..lib.sqla import create_engine
-from ..models import DBSession as db, metadata
+from ..models import DBSession as db, metadata, School
 
 
 def bootstrap_db(config_uri=None, engine=None, with_migration=True):
@@ -27,6 +27,7 @@ def bootstrap_db(config_uri=None, engine=None, with_migration=True):
             sys.exit(2)
 
         config = Config(config_uri)
+        app_cfg = config.get_section('app:main')
         script_dir = ScriptDirectory.from_config(config)
         heads = script_dir.get_heads()
 
@@ -37,6 +38,9 @@ def bootstrap_db(config_uri=None, engine=None, with_migration=True):
             sys.exit(2)
 
     metadata.create_all(engine)
+
+    with transaction.manager:
+        School(name=app_cfg.get('sortie.school', 'Default School')).save()
 
     # Clean up the sccoped session to allow a later app instantiation.
     db.remove()

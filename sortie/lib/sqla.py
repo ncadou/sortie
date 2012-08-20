@@ -55,6 +55,11 @@ class BaseOps(object):
                 yield(c.name, getattr(self, c.name))
 
     @classmethod
+    def db(cls):
+        """Return the SQLAlchemy db session object."""
+        return DBSession
+
+    @classmethod
     def validator(cls, mapping_cls=None, include=None, exclude=None):
         """Return a ColanderAlchemy schema mapper.
 
@@ -98,11 +103,12 @@ class BaseOps(object):
         return obj
 
     @classmethod
-    def get(cls, **criteria):
-        return DBSession.query(cls).filter_by(**criteria).one()
+    def get(cls, _ensure=False, **criteria):
+        q = DBSession.query(cls).filter_by(**criteria)
+        return q.one() if _ensure else q.first()
 
     @classmethod
-    def list(cls, **criteria):
+    def find(cls, **criteria):
         return DBSession.query(cls).filter_by(**criteria).all()
 
     def delete(self):
@@ -121,10 +127,16 @@ class BaseOps(object):
             DBSession.flush()
 
     @classmethod
-    def inject_api(cls, name):
-        """Inject common methods in a API module."""
-        for attr in 'create', 'get', 'list', 'validator':
-            setattr(sys.modules[name], attr, getattr(cls, attr))
+    def inject_api(cls, name, as_object=False):
+        """Inject common methods in an API module."""
+        class Obj(object): pass
+        container = Obj() if as_object else sys.modules[name]
+
+        for attr in 'create', 'get', 'find', 'validator':
+            setattr(container, attr, getattr(cls, attr))
+
+        if as_object:
+            return container
 
 
 class Timestamped(BaseOps):

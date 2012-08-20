@@ -2,6 +2,8 @@ from pyramid.events import BeforeRender, NewRequest, subscriber
 from pyramid.i18n import get_localizer, TranslationStringFactory
 from pyramid.threadlocal import get_current_request
 
+from . import helpers
+
 tsf = TranslationStringFactory('Sortie')
 
 
@@ -38,6 +40,8 @@ def add_renderer_globals(event):
 
     globs['_'] = request.translate
     globs['localizer'] = request.localizer
+
+    globs['h'] = helpers
 
     event.update(globs)
 

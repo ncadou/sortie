@@ -24,7 +24,7 @@ requires = [
 
 setup(name='Sortie',
       version='0.0',
-      description='Sortie',
+      description='School field trip registration and management app',
       long_description=README + '\n\n' +  CHANGES,
       classifiers=[
         "Programming Language :: Python",
